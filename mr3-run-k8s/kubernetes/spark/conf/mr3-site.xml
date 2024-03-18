@@ -1,0 +1,659 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
+
+<property>
+  <name>mr3.runtime</name>
+  <value>spark</value>
+</property>
+
+<property>
+  <name>mr3.cluster.use.hadoop-libs</name>
+  <value>false</value>
+</property>
+
+<property>
+  <name>mr3.lib.uris</name>
+  <value></value>
+</property>
+
+<property>
+  <name>mr3.aux.uris</name>
+  <value></value>
+</property>
+
+<!-- add for LocalProcess with Kerberos
+     -Djava.security.krb5.conf=/opt/mr3-run/conf/krb5.conf -->
+<property>
+  <name>mr3.am.launch.cmd-opts</name>
+  <value>-server -Djava.net.preferIPv4Stack=true -Dhadoop.metrics.log.level=WARN -XX:+UseNUMA -XX:+UseG1GC -XX:+ResizeTLAB -Dlog4j.configuration=file:/opt/mr3-run/conf/log4j.properties -Djavax.net.ssl.trustStore=/opt/mr3-run/key/sparkmr3-ssl-certificate.jks -Djavax.net.ssl.trustStoreType=jks</value>
+</property>
+
+<property>
+  <name>mr3.am.staging-dir</name>
+  <value>/opt/mr3-run/work-dir</value>
+</property>
+
+<property>
+  <name>mr3.am.acls.enabled</name>
+  <value>false</value>
+</property>
+
+<property>
+  <name>mr3.am.generate.dag.graph.viz</name>
+  <value>false</value>
+</property>
+
+<property>
+  <name>mr3.container.kill.policy</name>
+  <value>container.kill.wait.workervertex</value>
+  <description>
+    container.kill.wait.workervertex: wait until WorkerVertexes terminate
+    container.kill.nowait: kill without waiting 
+  </description>
+</property>
+
+<property>
+  <name>mr3.am.max.num.concurrent.dags</name>
+  <value>32</value>
+</property>
+
+<property>
+  <name>mr3.dag.queue.scheme</name>
+  <value>common</value>
+</property>
+ 
+<property>
+  <name>mr3.dag.priority.scheme</name>
+  <value>fifo</value>
+</property>
+ 
+<property>
+  <name>mr3.taskattempt.queue.scheme</name>
+  <value>opt</value>
+</property>
+ 
+<property>
+  <name>mr3.vertex.priority.scheme</name>
+  <value>roots</value>
+</property>
+ 
+<property>
+  <name>mr3.am.task.max.failed.attempts</name>
+  <value>3</value>
+</property>
+
+<property>
+  <name>mr3.am.task.retry.on.fatal.error</name>
+  <value>false</value>
+  <description>
+    Should be set to false because Spark terminates the stage when a fatal error occurs.
+  </description>
+</property>
+
+<property>
+  <name>mr3.am.client.thread-count</name>
+  <value>64</value>
+</property>
+
+<property>
+  <name>mr3.async.logging</name>
+  <value>false</value>
+  <description>
+    Should be set to false because we use kubernetes/spark/conf/log4j.properties
+  </description>
+</property>
+
+<property>
+  <name>mr3.am.permit.custom.user.class</name>
+  <value>false</value>
+</property>
+
+<property>
+  <name>mr3.dag.delete.local.dir</name>
+  <value>false</value>
+</property>
+
+<property>
+  <name>mr3.dag.recovery.enabled</name>
+  <value>false</value>
+</property>
+
+<!-- resource scheduler -->
+
+<property>
+  <name>mr3.am.resourcescheduler.max.requests.per.taskscheduler</name>
+  <value>1000</value>
+</property>
+
+<!-- container -->
+
+<property>
+  <name>mr3.container.launch.cmd-opts</name>
+  <value>-XX:+AlwaysPreTouch -Xss512k -XX:+UseG1GC -XX:TLABSize=8m -XX:+ResizeTLAB -XX:+UseNUMA -XX:+AggressiveOpts -XX:InitiatingHeapOccupancyPercent=40 -XX:G1ReservePercent=20 -XX:MaxGCPauseMillis=200 -XX:MetaspaceSize=1024m -server -Djava.net.preferIPv4Stack=true -XX:NewRatio=8 -Dlog4j.configuration=file:/opt/mr3-run/conf/log4j.properties -Djavax.net.ssl.trustStore=/opt/mr3-run/key/sparkmr3-ssl-certificate.jks -Djavax.net.ssl.trustStoreType=jks</value>
+</property>
+
+<property>
+  <name>mr3.container.reuse</name>
+  <value>true</value>
+</property>
+
+<property>
+  <name>mr3.container.combine.taskattempts</name>
+  <value>true</value>
+</property>
+
+<property>
+  <name>mr3.container.mix.taskattempts</name>
+  <value>true</value>
+</property>
+
+<property>
+  <name>mr3.container.scheduler.scheme</name>
+  <value>fair</value>
+</property>
+
+<property>
+  <name>mr3.container.stop.cross.dag.reuse</name>
+  <value>false</value>
+</property>
+
+<property>
+  <name>mr3.container.idle.timeout.ms</name>
+  <value>3600000</value>
+</property>
+
+<property>
+  <name>mr3.heartbeat.task.timeout.ms</name>
+  <value>120000</value>
+</property>
+
+<property>
+  <name>mr3.heartbeat.container.timeout.ms</name>
+  <value>120000</value>
+</property>
+
+<property>
+  <name>mr3.am.node-blacklisting.enabled</name>
+  <value>false</value>
+</property>
+
+<property>
+  <name>mr3.container.termination.checker.timeout.ms</name>
+  <value>300000</value>
+</property>
+
+<!-- set to false for Spark on MR3 -->
+<property>
+  <name>mr3.container.close.filesystem.ugi</name>
+  <value>false</value>
+</property>
+
+<!-- Kubernetes -->
+
+<!-- mr3.master.mode is set in mr3-setup.sh --> 
+
+<property>
+  <name>mr3.am.resource.memory.mb</name>
+  <value>2048</value>
+</property>
+
+<property>
+  <name>mr3.am.resource.cpu.cores</name>
+  <value>1</value>
+</property>
+
+<property>
+  <name>mr3.am.worker.mode</name>
+  <value>kubernetes</value>
+</property>
+
+<property>
+  <name>mr3.container.resourcescheduler.type</name>
+  <value>kubernetes</value>
+</property>
+
+<!-- AWS_REGION for running on AWS EKS -->
+<property>
+  <name>mr3.am.launch.env</name>
+  <value>LD_LIBRARY_PATH=/opt/mr3-run/lib,HADOOP_CREDSTORE_PASSWORD,AWS_ACCESS_KEY_ID,AWS_SECRET_ACCESS_KEY,AWS_REGION</value>
+</property>
+
+<!-- $LD_LIBRARY_PATH is automatically expanded to the current value inside DAGAppMaster (from mr3.am.launch.env), so do not include it -->
+<!-- AWS_REGION for running on AWS EKS -->
+<property>
+  <name>mr3.container.launch.env</name>
+  <value>LD_LIBRARY_PATH=/opt/mr3-run/lib,HADOOP_CREDSTORE_PASSWORD,AWS_ACCESS_KEY_ID,AWS_SECRET_ACCESS_KEY,AWS_REGION</value>
+</property>
+
+<property>
+  <name>mr3.am.delete.local.working-dir</name>
+  <value>false</value>
+</property>
+
+<property>
+  <name>mr3.am.local.working-dir</name>
+  <value>/opt/mr3-run/am-local-dir/am-local-working-dir</value>
+</property>
+
+<property>
+  <name>mr3.am.local.log-dir</name>
+  <value>/opt/mr3-run/am-local-dir/am-local-log-dir</value>
+</property>
+
+<!-- These variables are all set in mr3/mr3-setup.sh:
+  mr3.cluster.additional.classpath 
+ -->
+<!-- These variables are not set and their default values are used:
+  mr3.principal = ""
+  mr3.keytab = ""
+  mr3.token.renewal.hdfs.enabled = false
+  mr3.token.renewal.hive.enabled = false
+ -->
+
+<property>
+  <name>mr3.token.renewal.pass.credentials.via.memory</name>
+  <value>true</value>
+</property>
+
+<property>
+  <name>mr3.am.token.renewal.paths</name>
+  <value></value>
+</property>
+
+<!-- These variables are all set in mr3/mr3-setup.sh (for Kubernetes):
+  mr3.k8s.namespace
+  mr3.k8s.pod.master.serviceaccount
+  mr3.k8s.pod.worker.serviceaccount
+  mr3.k8s.pod.master.image
+  mr3.k8s.pod.master.user
+  mr3.k8s.master.working.dir
+  mr3.k8s.master.persistentvolumeclaim.mounts
+  mr3.k8s.pod.worker.image
+  mr3.k8s.pod.worker.user
+  mr3.k8s.worker.working.dir
+  mr3.k8s.java.io.tmpdir
+  mr3.k8s.worker.persistentvolumeclaim.mounts
+  mr3.k8s.conf.dir.configmap
+  mr3.k8s.conf.dir.mount.dir
+  mr3.k8s.keytab.secret
+  mr3.k8s.worker.secret
+  mr3.k8s.mount.keytab.secret
+  mr3.k8s.mount.worker.secret
+  mr3.k8s.keytab.mount.dir
+  mr3.k8s.keytab.mount.file
+ -->
+
+<!-- 
+  For running MR3Client inside the Kubernetes cluster,
+  comment out the configurations from mr3.k8s.api.server.url to mr3.k8s.am.service.port.
+  For running MR3Client outside the Kubernetes cluster,
+  set the configurations from mr3.k8s.client.config.file to mr3.k8s.am.service.port,
+  and update kubernetes/spark-yaml/mr3-service.yaml.
+ -->
+
+<!--
+<property>
+  <name>mr3.k8s.api.server.url</name>
+  <value>https://1.1.1.1.:6443</value>
+</property>
+
+<property>
+  <name>mr3.k8s.client.config.file</name>
+  <value>~/.kube/config</value>
+</property>
+
+<property>
+  <name>mr3.k8s.service.account.use.token.ca.cert.path</name>
+  <value>false</value>
+</property>
+
+<property>
+  <name>mr3.k8s.am.service.host</name>
+  <value>1.1.1.1</value>
+</property>
+
+<property>
+  <name>mr3.k8s.am.service.port</name>
+  <value>9862</value>
+</property>
+-->
+
+<property>
+  <name>mr3.k8s.master.command</name>
+  <value>/opt/mr3-run/spark/run-master.sh</value>
+</property>
+
+<property>
+  <name>mr3.k8s.worker.command</name>
+  <value>/opt/mr3-run/spark/run-worker.sh</value>
+</property>
+
+<property>
+  <name>mr3.k8s.worker.total.max.memory.gb</name>
+  <value>1048576</value>
+</property>
+
+<property>
+  <name>mr3.k8s.worker.total.max.cpu.cores</name>
+  <value>1048576</value>
+</property>
+
+<property>
+  <name>mr3.k8s.pod.cpu.cores.max.multiplier</name>
+  <value>1.0d</value>
+</property>
+
+<property>
+  <name>mr3.k8s.pod.memory.max.multiplier</name>
+  <value>1.0d</value>
+</property>
+
+<property>
+  <name>mr3.k8s.nodes.polling.interval.ms</name>
+  <value>60000</value>
+</property>
+
+<property>
+  <name>mr3.k8s.pods.polling.interval.ms</name>
+  <value>15000</value>
+</property>
+
+<property>
+  <name>mr3.container.command.num.waits.in.reserved</name>
+  <value>360</value>
+  <description>
+    Ensure mr3.container.command.num.waits.in.reserved * 1 second > mr3.k8s.pod.creation.timeout.ms. 
+  </description>
+</property>
+
+<property>
+  <name>mr3.k8s.pod.creation.timeout.ms</name>
+  <value>300000</value>
+  <description>
+    The default value of 30 seconds is too short on EKS.
+  </description>
+</property>
+
+<property>
+  <name>mr3.k8s.pod.master.node.selector</name>
+  <value></value>
+</property>
+
+<property>
+  <name>mr3.k8s.pod.master.toleration.specs</name>
+  <value></value>
+</property>
+
+<property>
+  <name>mr3.k8s.master.pod.affinity.match.label</name>
+  <value></value>
+</property>
+
+<property>
+  <name>mr3.k8s.pod.worker.node.selector</name>
+  <value></value>
+</property>
+
+<property>
+  <name>mr3.k8s.pod.worker.toleration.specs</name>
+  <value></value>
+</property>
+
+<property>
+  <name>mr3.k8s.pod.image.pull.policy</name>
+  <value>Always</value>
+</property>
+
+<property>
+  <name>mr3.k8s.pod.image.pull.secrets</name>
+  <value></value>
+</property>
+
+<property>
+  <name>mr3.k8s.host.aliases</name>
+  <value>red0=1.1.1.1</value>
+</property>
+
+<property>
+  <name>mr3.k8s.pod.master.emptydirs</name>
+  <value>/opt/mr3-run/work-local-dir</value>
+</property>
+
+<property>
+  <name>mr3.k8s.pod.master.hostpaths</name>
+  <value></value>
+</property>
+
+<!--
+<property>
+  <name>mr3.k8s.pod.worker.emptydirs</name>
+  <value>/opt/mr3-run/work-local-dir</value>
+</property>
+ -->
+
+<!-- set to /ephemeral1 with instance storage mounted on /ephemeral1 for worker Pod on AWS EKS -->
+<property>
+  <name>mr3.k8s.pod.worker.hostpaths</name>
+  <value>/opt/mr3-workers/data1/k8s,/opt/mr3-workers/data2/k8s,/opt/mr3-workers/data3/k8s,/opt/mr3-workers/data4/k8s</value>
+</property>
+
+<property>
+  <name>mr3.k8s.pod.worker.additional.hostpaths</name>
+  <value></value>
+</property>
+
+<property>
+  <name>mr3.k8s.master.local.dir.persistentvolumes</name>
+  <value></value>
+</property>
+
+<!--
+<property>
+  <name>mr3.k8s.worker.local.dir.persistentvolumes</name>
+  <value>/opt/mr3-run/disk1,/opt/mr3-run/disk2</value>
+</property>
+ -->
+
+<property>
+  <name>mr3.k8s.local.dir.persistentvolume.storageclass</name>
+  <value>gp2</value>
+</property>
+
+<property>
+  <name>mr3.k8s.local.dir.persistentvolume.storage</name>
+  <value>2Gi</value>
+</property>
+
+<property>
+  <name>mr3.k8s.readiness.probe.initial.delay.secs</name>
+  <value>15</value>
+</property>
+
+<property>
+  <name>mr3.k8s.readiness.probe.period.secs</name>
+  <value>15</value>
+</property>
+
+<property>
+  <name>mr3.k8s.liveness.probe.initial.delay.secs</name>
+  <value>30</value>
+</property>
+
+<property>
+  <name>mr3.k8s.liveness.probe.period.secs</name>
+  <value>30</value>
+</property>
+
+<property>
+  <name>mr3.app.history.logging.enabled</name>
+  <value>false</value>
+</property>
+
+<property>
+  <name>mr3.dag.history.logging.enabled</name>
+  <value>false</value>
+</property>
+
+<property>
+  <name>mr3.task.history.logging.enabled</name>
+  <value>false</value>
+</property>
+
+<property>
+  <name>mr3.container.task.failure.num.sleeps</name>
+  <value>0</value>
+</property>
+
+<!-- auto-scaling -->
+
+<!-- set to true on AWS EKS -->
+<property>
+  <name>mr3.enable.auto.scaling</name>
+  <value>false</value>
+</property>
+
+<property>
+  <name>mr3.memory.usage.check.scheme</name>
+  <value>average</value>
+</property>
+
+<property>
+  <name>mr3.auto.scale.out.threshold.percent</name>
+  <value>80</value>
+</property>
+
+<property>
+  <name>mr3.auto.scale.in.threshold.percent</name>
+  <value>50</value>
+</property>
+
+<property>
+  <name>mr3.memory.usage.check.window.length.secs</name>
+  <value>600</value>
+</property>
+
+<property>
+  <name>mr3.check.memory.usage.event.interval.secs</name>
+  <value>10</value>
+</property>
+
+<property>
+  <name>mr3.auto.scale.out.grace.period.secs</name>
+  <value>300</value>
+</property>
+
+<property>
+  <name>mr3.auto.scale.in.delay.after.scale.out.secs</name>
+  <value>300</value>
+</property>
+
+<property>
+  <name>mr3.auto.scale.in.grace.period.secs</name>
+  <value>90</value>
+</property>
+
+<property>
+  <name>mr3.auto.scale.in.wait.dag.finished</name>
+  <value>true</value>
+</property>
+
+<property>
+  <name>mr3.auto.scale.out.num.initial.containers</name>
+  <value>4</value>
+</property>
+
+<property>
+  <name>mr3.auto.scale.out.num.increment.containers</name>
+  <value>1</value>
+</property>
+
+<property>
+  <name>mr3.auto.scale.in.num.decrement.hosts</name>
+  <value>1</value>
+</property>
+
+<property>
+  <name>mr3.auto.scale.in.min.hosts</name>
+  <value>1</value>
+</property>
+
+<property>
+  <name>mr3.am.staging.dir.check.ownership.permission</name>
+  <value>true</value>
+</property>
+
+<property>
+  <name>mr3.am.task.concurrent.run.threshold.percent</name>
+  <value>100</value>
+</property>
+
+<property>
+  <name>mr3.k8s.pod.worker.security.context.sysctls</name>
+  <value>net.core.somaxconn=16384</value>
+</property>
+
+<property>
+  <name>mr3.k8s.pod.worker.init.container.command</name>
+  <value></value>
+</property>
+
+<property>
+  <name>mr3.k8s.pod.worker.init.container.image</name>
+  <value>busybox</value>
+</property>
+
+<property>
+  <!-- setting to 1 prevents the creation of ShuffleHandler processes -->
+  <!-- setting to 0 creates a ShuffleHandler process in each ContainerWorker Pod -->
+  <name>mr3.use.daemon.shufflehandler</name>
+  <value>0</value>
+</property>
+
+<property>
+  <name>mr3.k8s.shuffle.process.ports</name>
+  <value>7337</value>
+</property>
+
+<!-- Prometheus -->
+
+<property>
+  <name>mr3.prometheus.enable.metrics</name>
+  <value>false</value>
+</property>
+
+<property>
+  <name>mr3.prometheus.enable.jvm.metrics</name>
+  <value>false</value>
+</property>
+
+<property>
+  <name>mr3.k8s.master.pod.additional.labels</name>
+  <value>sparkmr3_app=mr3</value>
+</property>
+
+<property>
+  <name>mr3.prometheus.worker.enable.metrics</name>
+  <value>false</value>
+</property>
+
+<property>
+  <name>mr3.prometheus.worker.enable.jvm.metrics</name>
+  <value>true</value>
+</property>
+
+<property>
+  <name>mr3.prometheus.worker.httpserver.port</name>
+  <value>9890</value>
+</property>
+
+<property>
+  <name>dfs.namenode.delegation.token.renew-interval</name>
+  <value>86400000</value>
+  <description>
+    Internally used by mr3.common.security.TokenRenewer when Kerberos token renewal is enabled inside DAGAppMaster and ContainerWorkers.
+    Replaces org.apache.hadoop.hdfs.DFSConfigKeys.DFS_NAMENODE_DELEGATION_TOKEN_RENEW_INTERVAL_KEY.
+  </description>
+</property>
+
+</configuration>

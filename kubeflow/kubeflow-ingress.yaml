@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+  name: kubeflow-ingress
+  namespace: kubeflow
+spec:
+  tls:
+  - hosts:
+    - https-kubeflow.sqis.io
+    secretName: kubeflow-tls
+  rules:
+    - host: https-kubeflow.sqis.io
+    - http:
+        paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: istio-ingressgateway-workload
+              port:
+                number: 80
+

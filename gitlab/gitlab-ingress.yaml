@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+  name: gitlab-ingress
+  namespace: gitlab-system
+spec:
+  tls:
+  - hosts:
+    - gitlab.sqis.io
+    secretName: gitlab-tls
+  rules:
+    - host: gitlab.sqis.io
+    - http:
+        paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: gitlab-nginx-ingress-controller
+              port:
+                number: 80
+

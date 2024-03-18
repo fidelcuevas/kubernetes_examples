@@ -1,0 +1,17 @@
+apiVersion: v1
+data:
+  postgresql-password: WHUyMlZmWTYwb0xVdkluUzhrNmxMM0RxY3pzWElic0FmeVo2Zlpnd1RFZ0hLM3FXbkxGbWJKeU83WmlpMTdNaQ==
+  postgresql-postgres-password: RVFrUFRNWmhzOFFDRE5kMVZTTnNSU0RFYkM5VldLaUVPc2FLckE5U0NQcFNoV1NSc0Q2b0FtVDh5QWtERjV5Sg==
+kind: Secret
+metadata:
+  creationTimestamp: "2023-04-09T22:20:06Z"
+  labels:
+    app: gitlab
+    chart: gitlab-6.10.2
+    heritage: Helm
+    release: gitlab
+  name: gitlab-postgresql-password
+  namespace: gitlab-system
+  resourceVersion: "1067255"
+  uid: 8ffe0871-2049-4507-aad1-6b3305f0b9cf
+type: Opaque

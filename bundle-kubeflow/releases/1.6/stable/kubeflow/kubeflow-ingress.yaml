@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: kubeflow-ingress
+  namespace: kubeflow
+spec:
+  tls:
+    # - hosts:
+    #   - 192.168.1.100
+    - secretName: xof.world
+  rules:
+    # - host: https-192.168.1.100.nip.io
+    - http:
+        paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: istio-ingressgateway-workload
+              port:
+                number: 80

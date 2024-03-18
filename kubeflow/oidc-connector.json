@@ -1,0 +1,17 @@
+[
+ {
+   "id": "gitlab",
+   "name": "OpenID Connect",
+   "type": "oidc",
+   "config": {
+     "issuer": "https://gitlab.sqis.io",
+     "clientID": "fc55d38c32201c29423e6a2b8bf0b40262460488ffdce548b0f8529dc671a7a9",
+     "clientSecret": "9cffce5dc82a63ecc6d23e11e3dbb066b5f24407d42d3642b4b3ecc182de4805",
+     "redirectURI": "https://kubeflow.sqis.io/dex/callback",
+     "userNameKey": "preferred_username",
+     "scopes": [
+        "openid profile email"
+     ]
+   }
+ }
+]

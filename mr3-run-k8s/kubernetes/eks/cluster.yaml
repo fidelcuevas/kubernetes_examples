@@ -1,0 +1,59 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: hive-mr3
+  region: ap-northeast-2
+
+vpc:
+  nat:
+    gateway: Single
+
+availabilityZones: ["ap-northeast-2a", "ap-northeast-2b", "ap-northeast-2c"]
+
+nodeGroups:
+  - name: mr3-master
+    availabilityZones: ["ap-northeast-2a"]
+    instanceType: m5.xlarge
+    labels: { roles: masters }
+    ssh:
+      allow: true
+    desiredCapacity: 1
+    iam:
+      attachPolicyARNs:
+        - arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
+        - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
+        - arn:aws:iam::111111111111:policy/EKSAutoScalingWorkerPolicy
+        - arn:aws:iam::111111111111:policy/MR3AccessS3
+      withAddonPolicies:
+        efs: true
+  - name: mr3-worker
+    availabilityZones: ["ap-northeast-2a"]
+    instanceType: mixed
+    labels: { roles: workers }
+    ssh:
+      allow: true
+    desiredCapacity: 0
+    minSize: 0
+    maxSize: 3
+    instancesDistribution:
+      instanceTypes: ["m5d.xlarge"]
+      onDemandBaseCapacity: 0
+      onDemandPercentageAboveBaseCapacity: 0
+    iam:
+      attachPolicyARNs:
+        - arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy
+        - arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy
+        - arn:aws:iam::111111111111:policy/EKSAutoScalingWorkerPolicy
+        - arn:aws:iam::111111111111:policy/MR3AccessS3
+      withAddonPolicies:
+        efs: true
+    tags:
+      k8s.io/cluster-autoscaler/enabled: "true"
+      k8s.io/cluster-autoscaler/hive-mr3: "owned"
+      k8s.io/cluster-autoscaler/node-template/label/roles: "workers"
+    preBootstrapCommands:
+      - "mkfs -t ext4 /dev/nvme1n1"
+      - "mkdir -p /ephemeral1"
+      - "mount /dev/nvme1n1 /ephemeral1"
+      - "chown ec2-user:ec2-user /ephemeral1"

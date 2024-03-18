@@ -1,0 +1,11 @@
+#!/bin/bash
+microk8s.helm3 -n gitlab-system upgrade --install gitlab gitlab/gitlab \
+  --timeout 600s \
+  --set global.hosts.domain=sqis.io \
+  --set global.hosts.externalIP=192.168.1.112 \
+  --set global.hosts.minio.name=minio.kubeflow.svc.cluster.local \
+  --set global.hosts.minio.servicePort=9000 \
+  --set global.hosts.registry.servicePort=16443 \
+  --set global.minio.enabled=false \
+  --set certmanager-issuer.email=fidel@sqis.io \
+  --set gitlab.webservice.ingress.tls.secretName=gitlab-tls

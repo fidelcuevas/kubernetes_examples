@@ -1,0 +1,107 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  namespace: sparkmr3
+  name: spark1
+  labels:
+    mr3-pod-role: master-role
+    sparkmr3_app: spark1
+spec:
+  serviceAccountName: spark-service-account
+  restartPolicy: Never 
+  hostAliases:
+  - ip: "1.1.1.1"
+    hostnames:
+    - "red0"
+  containers:
+  - image: mr3project/spark3:3.2.2
+    command: ["/bin/sleep"]
+    args: [ "infinity" ]
+    imagePullPolicy: Always
+    name: sparkmr3-submit
+    env:
+    - name: DRIVER_NAME
+      value: "spark1"
+    - name: CLIENT_TO_AM_TOKEN_KEY
+      valueFrom:
+        configMapKeyRef:
+          name: client-am-config
+          key: key
+    - name: MR3_APPLICATION_ID_TIMESTAMP
+      valueFrom:
+        configMapKeyRef:
+          name: client-am-config
+          key: timestamp
+    - name: KRB5_CONFIG
+      value: "/opt/mr3-run/conf/krb5.conf"
+    - name: SPARK_DRIVER_CORES
+      value: '2'
+    - name: SPARK_DRIVER_MEMORY_MB
+      value: '4096'
+    resources:
+      requests:
+        cpu: 2
+        memory: 4Gi
+      limits:
+        cpu: 2
+        memory: 4Gi
+    ports:
+    - containerPort: 9850
+      protocol: TCP
+    - containerPort: 4040
+      protocol: TCP
+    volumeMounts:
+    - name: env-k8s-volume
+      mountPath: /opt/mr3-run/env.sh
+      subPath: env.sh
+    - name: conf-k8s-volume
+      mountPath: /opt/mr3-run/conf/
+      readOnly: true
+    - name: key-k8s-volume
+      mountPath: /opt/mr3-run/key/
+      readOnly: true
+    # - name: work-dir-volume
+    #   mountPath: /opt/mr3-run/work-dir
+    - name: spark-hostpath-1
+      mountPath: /opt/mr3-workers/data1/k8s
+    - name: spark-hostpath-2
+      mountPath: /opt/mr3-workers/data2/k8s
+    - name: spark-hostpath-3
+      mountPath: /opt/mr3-workers/data3/k8s
+    - name: spark-hostpath-4
+      mountPath: /opt/mr3-workers/data4/k8s
+    # - name: host-lib-volume
+    #   mountPath: /opt/mr3-run/host-lib
+  volumes:
+  - name: env-k8s-volume
+    secret:
+      secretName: env-secret
+  - name: conf-k8s-volume
+    configMap:
+      name: sparkmr3-conf-configmap
+  - name: key-k8s-volume
+    secret:
+      secretName: sparkmr3-keytab-secret
+  # - name: work-dir-volume
+  #   persistentVolumeClaim:
+  #     claimName: workdir-pvc
+  - name: spark-hostpath-1
+    hostPath:
+      path: /opt/mr3-workers/data1/k8s
+      type: Directory
+  - name: spark-hostpath-2
+    hostPath:
+      path: /opt/mr3-workers/data2/k8s
+      type: Directory
+  - name: spark-hostpath-3
+    hostPath:
+      path: /opt/mr3-workers/data3/k8s
+      type: Directory
+  - name: spark-hostpath-4
+    hostPath:
+      path: /opt/mr3-workers/data4/k8s
+      type: Directory
+  # - name: host-lib-volume
+  #   hostPath:
+  #     path: /home/ec2-user/lib
+  #     type: Directory
